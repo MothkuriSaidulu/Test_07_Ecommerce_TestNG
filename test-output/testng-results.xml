@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2024-03-09T17:53:41 IST" name="Default suite" finished-at="2024-03-09T17:53:54 IST" duration-ms="13013">
+    <groups>
+    </groups>
+    <test started-at="2024-03-09T17:53:41 IST" name="Default test" finished-at="2024-03-09T17:53:54 IST" duration-ms="13013">
+      <class name="StepDefination.TC01_Register_New_User">
+        <test-method is-config="true" signature="launchWebUrl()[pri:0, instance:StepDefination.TC01_Register_New_User@1165b38]" started-at="2024-03-09T17:53:41 IST" name="launchWebUrl" finished-at="2024-03-09T17:53:49 IST" duration-ms="7816" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- launchWebUrl -->
+        <test-method signature="Register_New_User()[pri:0, instance:StepDefination.TC01_Register_New_User@1165b38]" started-at="2024-03-09T17:53:49 IST" name="Register_New_User" finished-at="2024-03-09T17:53:54 IST" duration-ms="5124" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- Register_New_User -->
+      </class> <!-- StepDefination.TC01_Register_New_User -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

@@ -57,6 +57,9 @@ public class Page_02_RegisterPage extends ActionClass {
 	@FindBy(xpath = "//h1[contains(text(),'Account Created Successfully')]")
 	private WebElement sucessfully_Created;
 
+	@FindBy(xpath = "//div[@class='invalid-feedback']")
+	private WebElement invalid_Feedback;
+
 // Action Implementation
 	public void enterFirstName() {
 		waitForElementToVisable(register_text, "Wait untill Register Text Visable");
@@ -77,7 +80,7 @@ public class Page_02_RegisterPage extends ActionClass {
 
 	public void enterEmailID() {
 
-		String EmailID = "Lname" + randomString() + "@gmail.com";
+		String EmailID = "UserEmail" + randomString() + "@yopmail.com";
 		Enter_Text(Email_text_box, "Email Text box", EmailID);
 		System.out.println("Email ID : " + EmailID);
 
@@ -120,9 +123,30 @@ public class Page_02_RegisterPage extends ActionClass {
 		Click(Register_btn, "Click On Register Button");
 	}
 
-	public void verfiySuccessfullyCreatedMessage() {
+	public void verfiySuccessfullyCreatedMessage() throws InterruptedException {
+
+		
+		Thread.sleep(5);
+		
 		verifyText(sucessfully_Created, " Sucessfully message ", sucessfully_Created.getText());
 		System.out.println(sucessfully_Created.getText());
+		
+//		if (invalid_Feedback.isDisplayed()) {
+//			System.out.println(invalid_Feedback.getText());
+//
+//		} else {
+//			verifyText(sucessfully_Created, " Sucessfully message ", sucessfully_Created.getText());
+//			System.out.println(sucessfully_Created.getText());
+//		}
+
+//		if (sucessfully_Created.isDisplayed()== false) {
+//			verifyText(sucessfully_Created, " Sucessfully message ", sucessfully_Created.getText());
+//			System.out.println(sucessfully_Created.getText());
+//		} else {
+//			System.out.println(invalid_Feedback.getText());
+//
+//		}
+
 	}
 
 }

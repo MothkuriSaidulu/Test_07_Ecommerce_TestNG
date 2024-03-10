@@ -1,17 +1,22 @@
 package Utilities;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.PageLoadStrategy;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
 import PageObject.Page_01_HomePage;
@@ -22,8 +27,7 @@ public class BaseClass {
 	public WebDriver driver;
 	public Page_01_HomePage homePageObject;
 	public Page_02_RegisterPage registerPageObject;
-	
-	
+
 	public static boolean webDriverInitialized = false; // initially it is false
 	public static FileInputStream file;
 	public static Properties property;
@@ -78,4 +82,30 @@ public class BaseClass {
 		System.out.println(getPropertyValue);
 		driver.get(getPropertyValue);
 	}
+
+	public String getScreenshot(String TestCasesName, WebDriver driver) throws IOException {
+		// convert driver to screenshot mode
+		TakesScreenshot screenshot_mode = (TakesScreenshot) driver;
+
+		// Screenshot file
+		File screenshot_File = screenshot_mode.getScreenshotAs(OutputType.FILE);
+
+		// File Path
+		File location = new File(System.getProperty("user.dir") + "//Reports//screenshot.png");
+
+		FileUtils.copyFile(screenshot_File, location);
+
+		return System.getProperty("user.dir") + "//Reports//" + TestCasesName + ".png";
+
+	}
+	
+	@AfterMethod
+	public void closeBrowser() 
+	{
+		driver.quit();
+		
+	}
+
+
+
 }

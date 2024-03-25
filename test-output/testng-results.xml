@@ -2,24 +2,20 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2024-03-10T11:20:18 IST" name="Default suite" finished-at="2024-03-10T11:20:31 IST" duration-ms="13347">
+  <suite started-at="2024-03-25T15:28:01 IST" name="Default suite" finished-at="2024-03-25T15:28:17 IST" duration-ms="15771">
     <groups>
     </groups>
-    <test started-at="2024-03-10T11:20:18 IST" name="Default test" finished-at="2024-03-10T11:20:31 IST" duration-ms="13347">
-      <class name="StepDefination.TC01_Register_New_User">
-        <test-method is-config="true" signature="launchWebUrl()[pri:0, instance:StepDefination.TC01_Register_New_User@5542c4ed]" started-at="2024-03-10T11:20:18 IST" name="launchWebUrl" finished-at="2024-03-10T11:20:23 IST" duration-ms="5653" status="PASS">
+    <test started-at="2024-03-25T15:28:01 IST" name="Default test" finished-at="2024-03-25T15:28:17 IST" duration-ms="15771">
+      <class name="StepDefination.TC02_Sign_With_Exsiting_Data">
+        <test-method is-config="true" signature="launchWebUrl()[pri:0, instance:StepDefination.TC02_Sign_With_Exsiting_Data@7586beff]" started-at="2024-03-25T15:28:01 IST" name="launchWebUrl" finished-at="2024-03-25T15:28:09 IST" duration-ms="8198" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- launchWebUrl -->
-        <test-method signature="Register_New_User()[pri:0, instance:StepDefination.TC01_Register_New_User@5542c4ed]" started-at="2024-03-10T11:20:23 IST" name="Register_New_User" finished-at="2024-03-10T11:20:30 IST" duration-ms="6375" status="PASS">
+        <test-method signature="logIn_With_Exsiting_User()[pri:0, instance:StepDefination.TC02_Sign_With_Exsiting_Data@7586beff]" started-at="2024-03-25T15:28:09 IST" name="logIn_With_Exsiting_User" finished-at="2024-03-25T15:28:17 IST" duration-ms="7502" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- Register_New_User -->
-        <test-method is-config="true" signature="closeBrowser()[pri:0, instance:StepDefination.TC01_Register_New_User@5542c4ed]" started-at="2024-03-10T11:20:30 IST" name="closeBrowser" finished-at="2024-03-10T11:20:31 IST" duration-ms="1251" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- closeBrowser -->
-      </class> <!-- StepDefination.TC01_Register_New_User -->
+        </test-method> <!-- logIn_With_Exsiting_User -->
+      </class> <!-- StepDefination.TC02_Sign_With_Exsiting_Data -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

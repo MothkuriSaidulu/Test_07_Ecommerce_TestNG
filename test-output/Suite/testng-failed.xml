@@ -6,13 +6,12 @@
   </listeners>
   <test thread-count="5" name="Test(failed)">
     <classes>
-      <class name="StepDefination.TC01_Register_New_User">
+      <class name="StepDefination.TC02_Sign_With_Exsiting_Data">
         <methods>
-          <include name="closeBrowser"/>
-          <include name="Register_New_User"/>
+          <include name="logIn_With_Exsiting_User"/>
           <include name="launchWebUrl"/>
         </methods>
-      </class> <!-- StepDefination.TC01_Register_New_User -->
+      </class> <!-- StepDefination.TC02_Sign_With_Exsiting_Data -->
     </classes>
   </test> <!-- Test(failed) -->
 </suite> <!-- Failed suite [Suite] -->

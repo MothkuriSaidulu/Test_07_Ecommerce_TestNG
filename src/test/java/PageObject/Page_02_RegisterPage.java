@@ -7,6 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
 import Utilities.ActionClass;
+import io.netty.handler.codec.http.multipart.FileUpload;
 
 public class Page_02_RegisterPage extends ActionClass {
 
@@ -90,7 +91,7 @@ public class Page_02_RegisterPage extends ActionClass {
 		String phoneNumber = randomNumeric();
 		Enter_Text(Phone_Text, "Phone Text box", phoneNumber);
 		System.out.println("Phone Number : " + phoneNumber);
-
+		
 	}
 
 	public void selectOccupation() {
@@ -125,14 +126,14 @@ public class Page_02_RegisterPage extends ActionClass {
 
 	public void verfiySuccessfullyCreatedMessage() throws InterruptedException {
 
-		
-		Thread.sleep(5);
-		
+//		Thread.sleep(5);
+
 		verifyText(sucessfully_Created, " Sucessfully message ", sucessfully_Created.getText());
 		System.out.println(sucessfully_Created.getText());
-		
-//		if (invalid_Feedback.isDisplayed()) {
+
+//		if (!invalid_Feedback.isDisplayed()) {
 //			System.out.println(invalid_Feedback.getText());
+//			
 //
 //		} else {
 //			verifyText(sucessfully_Created, " Sucessfully message ", sucessfully_Created.getText());

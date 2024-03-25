@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -19,6 +20,7 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import ExcellDataReader.ExcellReader;
 import PageObject.Page_01_HomePage;
 import PageObject.Page_02_RegisterPage;
 
@@ -31,8 +33,9 @@ public class BaseClass {
 	public static boolean webDriverInitialized = false; // initially it is false
 	public static FileInputStream file;
 	public static Properties property;
-	public String getPropertyValue;
-
+	public static String getPropertyValue;
+    public static ExcellReader excellData;; 
+    public static  Map<String, String> hashmapData;
 	public WebDriver InitiateBrowser() throws IOException {
 
 		property = new Properties();
@@ -84,6 +87,7 @@ public class BaseClass {
 	}
 
 	public String getScreenshot(String TestCasesName, WebDriver driver) throws IOException {
+		
 		// convert driver to screenshot mode
 		TakesScreenshot screenshot_mode = (TakesScreenshot) driver;
 
@@ -99,12 +103,12 @@ public class BaseClass {
 
 	}
 	
-	@AfterMethod
-	public void closeBrowser() 
-	{
-		driver.quit();
-		
-	}
+//	@AfterMethod
+//	public void closeBrowser() 
+//	{
+//		driver.quit();
+//		
+//	}
 
 
 

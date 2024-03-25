@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.NoSuchFrameException;
@@ -19,6 +20,8 @@ public class ActionClass extends BaseClass {
 
 	public static WebDriver driver;
 	public String randomString;
+
+	public static final Logger logger = Logger.getLogger(ActionClass.class.getName());
 
 	@SuppressWarnings("static-access")
 	public ActionClass(WebDriver driver) {
@@ -39,11 +42,12 @@ public class ActionClass extends BaseClass {
 
 	public static void waitForElementToVisable(WebElement element, String elementDesc) {
 		try {
+			logger.info(element);
 			WebDriverWait wait = applyWebDriverWait();
 			wait.until(ExpectedConditions.visibilityOf(element));
 
 		} catch (Exception e) {
-
+			logger.error("------- ERROR WHILE TRYING WAIT FOR VISABILITY OF ELEMENT GETTING ERROR ------- :" + e.getMessage());
 			Assert.fail(("WebDriverException : WHILE TRYING TO WAIT FOR ELEMENT TO VISABLE ON THE SPECIFIED WEB ELEMENT"
 					+ "<b>" + elementDesc + "</b>" + " is not visible _due_to_the_Exception:- " + e.getMessage()));
 		}
@@ -52,10 +56,12 @@ public class ActionClass extends BaseClass {
 	public static void waitForElementToClickable(WebElement element, String elementDesc) {
 
 		try {
+			logger.info(element);
 			WebDriverWait wait = applyWebDriverWait();
 			wait.until(ExpectedConditions.elementToBeClickable(element));
 
 		} catch (Exception e) {
+			logger.error("------- ERROR WHILE TRYING TO CLICK ON THE SPECIFIED WEB ELEMENT ------- :" + e.getMessage());
 			org.testng.Assert.fail(
 					"WebDriverException : WHILE TRYING TO WAIT FOR ELEMENT TO CLICKABLE ON THE SPECIFIED WEB ELEMENT"
 							+ "<b>" + elementDesc + "</b>" + " is not visible _due_to_the_Exception:- "
@@ -67,11 +73,12 @@ public class ActionClass extends BaseClass {
 
 	public void Click(WebElement element, String elementDesc) {
 		try {
+			logger.info(element);
 			waitForElementToVisable(element, elementDesc);
 			element.click();
 
 		} catch (Exception e) {
-
+			logger.error("------- ERROR WHILE TRYING TO CLICK ON THE SPECIFIED WEB ELEMENT ------- :" + e.getMessage());
 			org.testng.Assert.fail("WebDriverException : WHILE TRYING TO CLICK ON THE SPECIFIED WEB ELEMENT" + "<b>"
 					+ elementDesc + "</b>" + " is not visible _due_to_the_Exception:- " + e.getMessage());
 
@@ -82,11 +89,13 @@ public class ActionClass extends BaseClass {
 	public void Enter_Text(WebElement element, String elementDesc, String text) {
 
 		try {
+			logger.info(element);
 			waitForElementToClickable(element, elementDesc);
 			element.clear();
 			element.sendKeys(text);
 
 		} catch (Exception e) {
+			logger.error("------- ERROR WHILE TRYING TO Enter Text inside text box -------  " + e.getMessage());
 			org.testng.Assert.fail("WebDriverException : WHILE TRYING TO ENTER TEXT INSIDE THE SPECIFIED WEB ELEMENT"
 					+ "<b>" + elementDesc + "</b>" + " is not visible _due_to_the_Exception:- " + e.getMessage());
 		}
@@ -95,7 +104,7 @@ public class ActionClass extends BaseClass {
 	public void verifyText(WebElement element, String elementDesc, String expectedText) {
 
 		try {
-
+			logger.info(element);
 			waitForElementToVisable(element, elementDesc);
 			String ActualTeext = element.getText().trim().toLowerCase();
 			String ExpectedText = expectedText.trim().toLowerCase();
@@ -103,6 +112,7 @@ public class ActionClass extends BaseClass {
 
 		} catch (Exception e) {
 			// TODO: handle exception
+			logger.error("------- ERROR WHILE TRYING TO  Verifying the Text ------- " + e.getMessage());
 			org.testng.Assert.fail("Exception : WHILE TRYING TO VERIFY THE TEXT INSIDE A WEB ELEMENT : "
 					+ "Actual and expected texts are not matching for: " + "<b>" + elementDesc + "</b>"
 					+ " due to the Exception: " + e.getMessage());

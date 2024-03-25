@@ -53,6 +53,7 @@ public class Listners extends BaseClass implements ITestListener {
 
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 		extentThread.get().addScreenCaptureFromPath(filePath, result.getMethod().getMethodName());

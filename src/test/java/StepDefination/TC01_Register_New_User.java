@@ -1,7 +1,5 @@
 package StepDefination;
 
-import java.io.IOException;
-
 import org.testng.annotations.Test;
 
 import PageObject.Page_01_HomePage;
@@ -11,7 +9,7 @@ import Utilities.BaseClass;
 public class TC01_Register_New_User extends BaseClass {
 
 	@Test
-	public void Register_New_User() throws IOException, InterruptedException {
+	public void Register_New_User() throws Exception {
 
 		homePageObject = new Page_01_HomePage(driver);
 		homePageObject.clickOnRegisterNewUser();

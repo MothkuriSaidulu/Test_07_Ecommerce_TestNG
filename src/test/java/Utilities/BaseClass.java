@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
 
@@ -13,6 +14,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -34,8 +36,9 @@ public class BaseClass {
 	public static FileInputStream file;
 	public static Properties property;
 	public static String getPropertyValue;
-    public static ExcellReader excellData;; 
-    public static  Map<String, String> hashmapData;
+	public static ExcellReader excellData;;
+	public static Map<String, String> hashmapData;
+
 	public WebDriver InitiateBrowser() throws IOException {
 
 		property = new Properties();
@@ -87,7 +90,12 @@ public class BaseClass {
 	}
 
 	public String getScreenshot(String TestCasesName, WebDriver driver) throws IOException {
-		
+		Date date = new Date();
+		String dateAndTime = date.toString();
+		System.out.println(dateAndTime); // Out put --> Sat Mar 30 11:54:52 IST 2024
+
+		String screenshotName = date.toString().replace(":", "_").replace(" ", "_") + ".png"; // Output -->//
+
 		// convert driver to screenshot mode
 		TakesScreenshot screenshot_mode = (TakesScreenshot) driver;
 
@@ -102,6 +110,57 @@ public class BaseClass {
 		return System.getProperty("user.dir") + "//Reports//" + TestCasesName + ".png";
 
 	}
+
+	public String takeScreenshotOfEachPage(String TestCasesName, WebDriver driver) throws IOException {
+		Date date = new Date();
+		String dateAndTime = date.toString();
+		System.out.println(dateAndTime); // Out put --> Sat Mar 30 11:54:52 IST 2024
+
+		String screenshotName = date.toString().replace(":", "_").replace(" ", "_") + ".png"; // Output -->//
+
+		// convert driver to screenshot mode
+		TakesScreenshot screenshot_mode = (TakesScreenshot) driver;
+
+		// Screenshot file
+		File screenshot_File = screenshot_mode.getScreenshotAs(OutputType.FILE);
+
+		// File Path
+		File location = new File(System.getProperty("user.dir") + "//Reports//" + screenshotName);
+
+		FileUtils.copyFile(screenshot_File, location);
+
+		return System.getProperty("user.dir") + "//Reports//" + TestCasesName;
+
+	}
+	/*
+	 * public String takeScreenshotOfEachPage(String path, WebDriver driver) throws
+	 * IOException { this.driver = driver; File filePath; String screenshotName =
+	 * null; try { Date date = new Date(); String dateAndTime = date.toString();
+	 * System.out.println(dateAndTime); // Out put --> Sat Mar 30 11:54:52 IST 2024
+	 * 
+	 * screenshotName = date.toString().replace(":", "_").replace(" ", "_") +
+	 * ".png"; // Output -->// // Sat_Mar_30_11_54_52_IST_2024.png
+	 * System.out.println(screenshotName); TakesScreenshot screenshot_mode =
+	 * (TakesScreenshot) driver;
+	 * 
+	 * File scr = screenshot_mode.getScreenshotAs(OutputType.FILE);
+	 * 
+	 * // System.getProperty("user.dir") + "//Reports//screenshot.png
+	 * 
+	 * filePath = new File(System.getProperty("user.dir") + "\\Screenshots\\" +
+	 * screenshotName);
+	 * 
+	 * // File filePath = new File(
+	 * "C:\\Users\\1003413\\eclipse-workspace\\Test_07_Ecommerce_TestNG\\Screenshots\\"
+	 * + screenshotName); FileUtils.copyFile(scr, filePath); } catch
+	 * (WebDriverException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); } catch (IOException e) { // TODO Auto-generated catch
+	 * block e.printStackTrace(); } return System.getProperty("user.dir") +
+	 * "\\Screenshots\\" + screenshotName;
+	 * 
+	 * }
+	 */
+	
 	
 //	@AfterMethod
 //	public void closeBrowser() 
@@ -109,7 +168,5 @@ public class BaseClass {
 //		driver.quit();
 //		
 //	}
-
-
 
 }

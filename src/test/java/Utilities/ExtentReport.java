@@ -17,7 +17,7 @@ public class ExtentReport {
 		ExtentReports report = new ExtentReports();
 		report.attachReporter(makeReport);
 		report.setSystemInfo("Saidachary", "Testing Engineer");
-		
+
 		return report;
 
 	}

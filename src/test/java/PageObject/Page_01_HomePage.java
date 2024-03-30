@@ -1,6 +1,7 @@
 package PageObject;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -39,9 +40,11 @@ public class Page_01_HomePage extends ActionClass {
 	private WebElement Register_Here;
 
 // Actions
-	public void clickOnRegisterNewUser() {
+	public void clickOnRegisterNewUser() throws IOException {
 		verifyText(LogIn_Text, "LogIn Text Verifying", "Log in");
 		System.out.println("User Landed on LogIn Page : " + LogIn_Text.getText());
+//		takeScreenshotOfEachPage();
+
 		Click(Register_Here, "Click On Register Here");
 
 	}

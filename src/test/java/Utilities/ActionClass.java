@@ -1,15 +1,22 @@
 package Utilities;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Date;
 import java.util.Properties;
+
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.NoSuchFrameException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -47,7 +54,8 @@ public class ActionClass extends BaseClass {
 			wait.until(ExpectedConditions.visibilityOf(element));
 
 		} catch (Exception e) {
-			logger.error("------- ERROR WHILE TRYING WAIT FOR VISABILITY OF ELEMENT GETTING ERROR ------- :" + e.getMessage());
+			logger.error("------- ERROR WHILE TRYING WAIT FOR VISABILITY OF ELEMENT GETTING ERROR ------- :"
+					+ e.getMessage());
 			Assert.fail(("WebDriverException : WHILE TRYING TO WAIT FOR ELEMENT TO VISABLE ON THE SPECIFIED WEB ELEMENT"
 					+ "<b>" + elementDesc + "</b>" + " is not visible _due_to_the_Exception:- " + e.getMessage()));
 		}
@@ -139,5 +147,34 @@ public class ActionClass extends BaseClass {
 
 		return randomString;
 	}
+/*
+	public void takeScreenshotOfEachPage() throws IOException {
+		File filePath;
+		String screenshotName = null;
+		try {
+			Date date = new Date();
+			String dateAndTime = date.toString();
+			System.out.println(dateAndTime); // Out put --> Sat Mar 30 11:54:52 IST 2024
 
+			screenshotName = date.toString().replace(":", "_").replace(" ", "_") + ".png"; // Output -->//
+																							// Sat_Mar_30_11_54_52_IST_2024.png
+			System.out.println(screenshotName);
+			File scr = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+			// System.getProperty("user.dir") + "//Reports//screenshot.png
+
+			filePath = new File(System.getProperty("user.dir") + "\\Screenshots\\" + screenshotName);
+
+//			File filePath = new File("C:\\Users\\1003413\\eclipse-workspace\\Test_07_Ecommerce_TestNG\\Screenshots\\" + screenshotName);
+			FileUtils.copyFile(scr, filePath);
+		} catch (WebDriverException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+*/
 }

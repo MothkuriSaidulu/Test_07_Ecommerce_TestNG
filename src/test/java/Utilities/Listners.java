@@ -1,5 +1,7 @@
 package Utilities;
 
+import java.io.IOException;
+
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
@@ -20,23 +22,46 @@ public class Listners extends BaseClass implements ITestListener {
 
 	@Override
 	public void onTestStart(ITestResult result) {
-		test = extent.createTest(result.getMethod().getMethodName()).assignAuthor("Saidachary").assignCategory("Regression Test Case");
+		test = extent.createTest(result.getMethod().getMethodName()).assignAuthor("Saidachary")
+				.assignCategory("Regression Test Case");
+		extentThread.set(test);
+
+		try {
+			driver = (WebDriver) result.getTestClass().getRealClass().getField("driver").get(result.getInstance());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		String filePath = null;
+		try {
+			filePath = takeScreenshotOfEachPage(result.getMethod().getMethodName(), driver);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		test = extentThread.get().addScreenCaptureFromPath(filePath, result.getMethod().getMethodName());
 		extentThread.set(test);
 	}
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
 //		test.log(Status.PASS, "Test Cases Pass");
-		extentThread.get().log(Status.PASS, "Test Case Pass");
+		try {
+			extentThread.get().log(Status.PASS, "Test Case Pass");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 	@Override
 	public void onTestFailure(ITestResult result) {
 //		test.log(Status.FAIL, "Test Case Failed");
-		
-//		extentThread.get().log(Status.FAIL, "Test Cases Fail");
 		extentThread.get().fail(result.getThrowable()); // it will print the error in report
+
+//		extentThread.get().log(Status.FAIL, "Test Cases Fail");
 		try {
 			driver = (WebDriver) result.getTestClass().getRealClass().getField("driver").get(result.getInstance());
 			// getTestClass() --> This will refer class which is mentioned in .xml file.

@@ -1,5 +1,7 @@
 package PageObject;
 
+import java.io.IOException;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -91,7 +93,7 @@ public class Page_02_RegisterPage extends ActionClass {
 		String phoneNumber = randomNumeric();
 		Enter_Text(Phone_Text, "Phone Text box", phoneNumber);
 		System.out.println("Phone Number : " + phoneNumber);
-		
+
 	}
 
 	public void selectOccupation() {
@@ -120,15 +122,19 @@ public class Page_02_RegisterPage extends ActionClass {
 		Click(check_box, "Click on Check box");
 	}
 
-	public void clickOnRegisterButton() {
+	public void clickOnRegisterButton() throws IOException {
+//		takeScreenshotOfEachPage();
 		Click(Register_btn, "Click On Register Button");
+
 	}
 
-	public void verfiySuccessfullyCreatedMessage() throws InterruptedException {
+	public void verfiySuccessfullyCreatedMessage() throws Exception {
 
 //		Thread.sleep(5);
 
 		verifyText(sucessfully_Created, " Sucessfully message ", sucessfully_Created.getText());
+//		takeScreenshotOfEachPage();
+
 		System.out.println(sucessfully_Created.getText());
 
 //		if (!invalid_Feedback.isDisplayed()) {

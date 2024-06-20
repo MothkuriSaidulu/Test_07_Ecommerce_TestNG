@@ -2,6 +2,8 @@ package ExcellDataReader;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -13,34 +15,48 @@ import org.testng.annotations.Test;
 
 public class ExcelDataReader {
 
-	@Test
-	public void GetExcelData() throws Exception {
+	public void name() {
 
-// 1. Create an Instance of the Workbook Class and Open the Excel File
-		File file = new File("D:\\AutomationExcelFile\\EcommerceTestDataSheet.xlsx");
-		FileInputStream filePath = new FileInputStream(file);
-		@SuppressWarnings("resource")
-		XSSFWorkbook workBook = new XSSFWorkbook(filePath);
+		try {
+			
+//			File Path.
+//			Find Number Of sheets.
+//			get the sheet name.
+//			iterate rows 
+//			column iterator
+			
+			
+			File filePath = new File("");
+			FileInputStream file = new FileInputStream(filePath);
+			XSSFWorkbook wordBook = new XSSFWorkbook(file);
+			
+			int numberOfSheets = wordBook.getNumberOfSheets();
+			
+			for( int i = 0 ; i <= numberOfSheets ; i++)
+			{
+				if (wordBook.getSheetAt(i).getSheetName().equalsIgnoreCase("signData"))
+				{
+					XSSFSheet sheetName = wordBook.getSheetAt(i);
+					Iterator<Row> rows = sheetName.iterator();
+					while(rows.hasNext())
+					{
+					 	Row singleRow = rows.next();
+					 	Cell cellKeyValue = singleRow.getCell(0);
+					 	
+					 	
+					 	Cell cellRowValue = singleRow.getCell(1);
 
-		ArrayList<String> arrayList = new ArrayList<String>();
-// 2. Get the Desired Sheet from the Workbook.
-//		XSSFSheet sheet= workBook.getSheet("SignUPTestData");
-//		int noOfSheets = workBook.getNumberOfSheets();
-//		System.out.println(noOfSheets);
-
-		XSSFSheet sheet = workBook.getSheet("SignUPTestData");
-		Iterator<Row> rowIterator = sheet.rowIterator();
-		int i = 0;
-		while (rowIterator.hasNext()) {
-			Row row = rowIterator.next();
-			Iterator<Cell> cellIterator = row.iterator();
-			while (cellIterator.hasNext()) {
-				Cell cellvalue = cellIterator.next();
-				String cellData = cellvalue.getStringCellValue();
-				System.out.println(cellData);
-				arrayList.add(i, cellData);
-				i++;
+					 	
+						
+					}
+					
+				}
+				
 			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}

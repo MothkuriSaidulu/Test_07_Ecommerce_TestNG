@@ -11,6 +11,7 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
+
 public class Listners extends BaseClass implements ITestListener {
 	// ExtentReports --> from dependency
 	// ExtentReport --> From Utilities Class which we have Created
@@ -35,8 +36,11 @@ public class Listners extends BaseClass implements ITestListener {
 
 		String filePath = null;
 		try {
-			filePath = takeScreenshotOfEachPage(result.getMethod().getMethodName(), driver);
+			filePath = takeScreenshot(result.getMethod().getMethodName(), driver);
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

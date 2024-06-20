@@ -3,12 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="StepDefination.TC02_Sign_With_Exsiting_Data">
+      <class name="ExcellDataReader.IncognitoMode">
         <methods>
-          <include name="logIn_With_Exsiting_User"/>
-          <include name="launchWebUrl"/>
+          <include name="name"/>
         </methods>
-      </class> <!-- StepDefination.TC02_Sign_With_Exsiting_Data -->
+      </class> <!-- ExcellDataReader.IncognitoMode -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

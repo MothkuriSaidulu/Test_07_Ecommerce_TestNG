@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Map;
 import java.util.Properties;
@@ -14,43 +16,47 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
-import org.testng.annotations.AfterMethod;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.BeforeMethod;
 
 import ExcellDataReader.ExcellReader;
 import PageObject.Page_01_HomePage;
 import PageObject.Page_02_RegisterPage;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseClass {
 
-	public WebDriver driver;
-	public Page_01_HomePage homePageObject;
-	public Page_02_RegisterPage registerPageObject;
-
+	public static WebDriver driver;
+	public static Page_01_HomePage homePageObject;
+	public static Page_02_RegisterPage registerPageObject;
+	public static String randomString;
+//	public static String getPropertyValue;
 	public static boolean webDriverInitialized = false; // initially it is false
-	public static FileInputStream file;
-	public static Properties property;
-	public static String getPropertyValue;
+	public static FileInputStream fileInputstream;
+//	public static Properties property;
+	public static String screenshotName, browserName;
 	public static ExcellReader excellData;;
 	public static Map<String, String> hashmapData;
+	public static String rootpath = System.getProperty("user.dir");
+	public static File fileFolder, filePath;
 
 	public WebDriver InitiateBrowser() throws IOException {
 
-		property = new Properties();
+		Properties property = new Properties();
 		FileInputStream file = new FileInputStream("Config.properties");
 		property.load(file);
 
-		String browser = property.getProperty("Browser");
+		browserName = property.getProperty("Browser");
 
-		if (browser.contains("Chrome")) {
+		if (browserName.contains("Chrome")) {
 			ChromeOptions options = new ChromeOptions();
-			options.setPageLoadStrategy(PageLoadStrategy.NONE);
+			options.setPageLoadStrategy(PageLoadStrategy.EAGER);
 			System.out.println(" ******* Chrome Browser Launched  ******* ");
+			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver(options);
 		} else {
 			EdgeOptions options = new EdgeOptions();
@@ -71,22 +77,22 @@ public class BaseClass {
 		driver = InitiateBrowser();
 		Properties property = new Properties();
 		try {
-			file = new FileInputStream("Config.properties");
+			fileInputstream = new FileInputStream("Config.properties");
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 
 		try {
-			property.load(file);
+			property.load(fileInputstream);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		getPropertyValue = property.getProperty("Url");
-		System.out.println(getPropertyValue);
-		driver.get(getPropertyValue);
+		String prop = property.getProperty("Url");
+		System.out.println(prop);
+		driver.get(prop);
 	}
 
 	public String getScreenshot(String TestCasesName, WebDriver driver) throws IOException {
@@ -94,7 +100,7 @@ public class BaseClass {
 		String dateAndTime = date.toString();
 		System.out.println(dateAndTime); // Out put --> Sat Mar 30 11:54:52 IST 2024
 
-		String screenshotName = date.toString().replace(":", "_").replace(" ", "_") + ".png"; // Output -->//
+		screenshotName = date.toString().replace(":", "_").replace(" ", "_") + ".png"; // Output -->//
 
 		// convert driver to screenshot mode
 		TakesScreenshot screenshot_mode = (TakesScreenshot) driver;
@@ -103,7 +109,7 @@ public class BaseClass {
 		File screenshot_File = screenshot_mode.getScreenshotAs(OutputType.FILE);
 
 		// File Path
-		File location = new File(System.getProperty("user.dir") + "//Reports//screenshot.png");
+		File location = new File(rootpath + "//Reports//screenshot.png");
 
 		FileUtils.copyFile(screenshot_File, location);
 
@@ -111,7 +117,31 @@ public class BaseClass {
 
 	}
 
-	public String takeScreenshotOfEachPage(String TestCasesName, WebDriver driver) throws IOException {
+	public static String getDate_ddmmyy() {
+		DateTimeFormatter dateformatter = DateTimeFormatter.ofPattern("dd_mm_yyyy");
+
+		LocalDateTime date = LocalDateTime.now();
+
+		String dateString = dateformatter.format(date);
+		return dateString;
+
+	}
+
+	public File createFolder() {
+		fileFolder = new File(rootpath + "\\Screenshots\\" + getDate_ddmmyy());
+		if (!fileFolder.exists()) {
+			fileFolder.mkdir();
+			System.out.println("Report folder structure created : " + fileFolder);
+
+		} else {
+			System.out.println("Report folder structure already available : " + fileFolder);
+
+		}
+		return fileFolder;
+	}
+
+	public String takeScreenshot(String TestCasesName, WebDriver driver) throws IOException, InterruptedException {
+
 		Date date = new Date();
 		String dateAndTime = date.toString();
 		System.out.println(dateAndTime); // Out put --> Sat Mar 30 11:54:52 IST 2024
@@ -119,49 +149,45 @@ public class BaseClass {
 		String screenshotName = date.toString().replace(":", "_").replace(" ", "_") + ".png"; // Output -->//
 
 		// convert driver to screenshot mode
+		Thread.sleep(3000);
 		TakesScreenshot screenshot_mode = (TakesScreenshot) driver;
 
 		// Screenshot file
 		File screenshot_File = screenshot_mode.getScreenshotAs(OutputType.FILE);
 
 		// File Path
-		File location = new File(System.getProperty("user.dir") + "//Reports//" + screenshotName);
+		File location = new File(System.getProperty("user.dir") + "//Screenshots//" + screenshotName);
 
 		FileUtils.copyFile(screenshot_File, location);
 
-		return System.getProperty("user.dir") + "//Reports//" + TestCasesName;
+		return System.getProperty("user.dir") + "//Screenshots//" + TestCasesName;
 
 	}
-	/*
-	 * public String takeScreenshotOfEachPage(String path, WebDriver driver) throws
-	 * IOException { this.driver = driver; File filePath; String screenshotName =
-	 * null; try { Date date = new Date(); String dateAndTime = date.toString();
-	 * System.out.println(dateAndTime); // Out put --> Sat Mar 30 11:54:52 IST 2024
-	 * 
-	 * screenshotName = date.toString().replace(":", "_").replace(" ", "_") +
-	 * ".png"; // Output -->// // Sat_Mar_30_11_54_52_IST_2024.png
-	 * System.out.println(screenshotName); TakesScreenshot screenshot_mode =
-	 * (TakesScreenshot) driver;
-	 * 
-	 * File scr = screenshot_mode.getScreenshotAs(OutputType.FILE);
-	 * 
-	 * // System.getProperty("user.dir") + "//Reports//screenshot.png
-	 * 
-	 * filePath = new File(System.getProperty("user.dir") + "\\Screenshots\\" +
-	 * screenshotName);
-	 * 
-	 * // File filePath = new File(
-	 * "C:\\Users\\1003413\\eclipse-workspace\\Test_07_Ecommerce_TestNG\\Screenshots\\"
-	 * + screenshotName); FileUtils.copyFile(scr, filePath); } catch
-	 * (WebDriverException e) { // TODO Auto-generated catch block
-	 * e.printStackTrace(); } catch (IOException e) { // TODO Auto-generated catch
-	 * block e.printStackTrace(); } return System.getProperty("user.dir") +
-	 * "\\Screenshots\\" + screenshotName;
-	 * 
-	 * }
-	 */
-	
-	
+
+	public void takeScreenshotOfEachPage() throws IOException, InterruptedException {
+
+		Date date = new Date();
+		String dateAndTime = date.toString();
+		System.out.println(dateAndTime); // Out put --> Sat Mar 30 11:54:52 IST 2024
+
+		String screenshotName = date.toString().replace(":", "_").replace(" ", "_") + ".png"; // Output -->//
+
+		// convert driver to screenshot mode
+//		TakesScreenshot screenshot_mode = (TakesScreenshot) driver;
+		Thread.sleep(3000);
+		File scr = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+		// Screenshot file
+//		File screenshot_File = screenshot_mode.getScreenshotAs(OutputType.FILE);
+
+		// File Path
+		File location = new File(createFolder() + "//Screenshots//" + screenshotName);
+
+		FileUtils.copyFile(scr, location);
+
+//		return System.getProperty("user.dir") + "//Screenshots//" + TestCasesName;
+	}
+
 //	@AfterMethod
 //	public void closeBrowser() 
 //	{

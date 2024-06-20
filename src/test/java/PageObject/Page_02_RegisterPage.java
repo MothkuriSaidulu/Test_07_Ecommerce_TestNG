@@ -1,15 +1,13 @@
 package PageObject;
 
-import java.io.IOException;
-
+import java.util.List;
+import java.util.Properties;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
-
 import Utilities.ActionClass;
-import io.netty.handler.codec.http.multipart.FileUpload;
 
 public class Page_02_RegisterPage extends ActionClass {
 
@@ -38,6 +36,9 @@ public class Page_02_RegisterPage extends ActionClass {
 
 	@FindBy(xpath = "//select[@formcontrolname='occupation']")
 	private WebElement Occupation_text;
+
+	@FindBy(xpath = "//select[@formcontrolname='occupation'] //option")
+	private List<WebElement> Occupation_List;
 
 	@FindBy(xpath = "//input[@value='Male']")
 	private WebElement Male_radio_button;
@@ -96,22 +97,40 @@ public class Page_02_RegisterPage extends ActionClass {
 
 	}
 
-	public void selectOccupation() {
-		getPropertyValue = property.getProperty("Occupation");
+	public void selectOccupation() throws InterruptedException {
+//		property = new Properties();
+//		getPropertyValue = property.getProperty("Occupation");
+//		System.out.println(getPropertyValue);
+
+//		Thread.sleep(3000);
+//
+//		Click(Occupation_text, "click on occupation dropdown");
+//
+//		for (int i = 0; i <= Occupation_List.size(); i++) {
+//			String ocumationName = Occupation_List.get(i).getText();
+//			if (ocumationName.equalsIgnoreCase(getPropertyValue)) {
+//				Occupation_List.get(i).click();
+//				break;
+//			}
+//		}
 
 		Select selectDropDown = new Select(Occupation_text);
-		selectDropDown.selectByVisibleText(getPropertyValue);
+//		selectDropDown.selectByVisibleText(getPropertyValue);
+		selectDropDown.selectByIndex(2);
 
 	}
 
 	public void selectGenderType() {
-		getPropertyValue = property.getProperty("Gender");
-
-		if (getPropertyValue.contains("Male")) {
-			Click(Male_radio_button, "Male Radio Button");
-		} else {
-			Click(Female_radio_button, "Click On Female Radio button");
-		}
+//		property = new Properties(); 
+//		getPropertyValue = property.getProperty("Gender");
+//		System.out.println(getPropertyValue);
+//		if (getPropertyValue.contains("Male")) {
+//			Click(Male_radio_button, "Male Radio Button");
+//		} else {
+//			Click(Female_radio_button, "Click On Female Radio button");
+//		}
+		
+		Male_radio_button.click();
 	}
 
 	public void enterPassword() {
@@ -122,8 +141,8 @@ public class Page_02_RegisterPage extends ActionClass {
 		Click(check_box, "Click on Check box");
 	}
 
-	public void clickOnRegisterButton() throws IOException {
-//		takeScreenshotOfEachPage();
+	public void clickOnRegisterButton() throws Exception {
+		takeScreenshotOfEachPage();
 		Click(Register_btn, "Click On Register Button");
 
 	}
@@ -133,7 +152,7 @@ public class Page_02_RegisterPage extends ActionClass {
 //		Thread.sleep(5);
 
 		verifyText(sucessfully_Created, " Sucessfully message ", sucessfully_Created.getText());
-//		takeScreenshotOfEachPage();
+		takeScreenshotOfEachPage();
 
 		System.out.println(sucessfully_Created.getText());
 

@@ -15,6 +15,7 @@ public class TC01_Register_New_User extends BaseClass {
 		homePageObject.clickOnRegisterNewUser();
 
 		registerPageObject = new Page_02_RegisterPage(driver);
+		
 		registerPageObject.enterFirstName();
 		registerPageObject.enterLastName();
 		registerPageObject.enterEmailID();

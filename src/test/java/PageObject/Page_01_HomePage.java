@@ -1,11 +1,8 @@
 package PageObject;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.poi.hssf.record.PageBreakRecord.Break;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -40,7 +37,7 @@ public class Page_01_HomePage extends ActionClass {
 	private WebElement Register_Here;
 
 // Actions
-	public void clickOnRegisterNewUser() throws IOException {
+	public void clickOnRegisterNewUser() throws Exception {
 		verifyText(LogIn_Text, "LogIn Text Verifying", "Log in");
 		System.out.println("User Landed on LogIn Page : " + LogIn_Text.getText());
 //		takeScreenshotOfEachPage();
@@ -55,13 +52,13 @@ public class Page_01_HomePage extends ActionClass {
 //			waitForElementToVisable(Email_Text, "EmailID and Passord");
 			Thread.sleep(5000);
 
-			excellData = new ExcellReader();
+			excellData = new ExcellReader(driver);
 			hashmapData = excellData.getExcelData();
 
 			for (Entry<String, String> map : hashmapData.entrySet()) {
 				System.out.println("Key = " + map.getKey() + ", value = " + map.getValue());
 				if (map.getKey().equalsIgnoreCase("EmailID")) {
-					String value = map.getValue();
+					String value = map.getKey();
 					Enter_Text(Email_Text, "Enter EmailID", value);
 
 				}
@@ -83,12 +80,10 @@ public class Page_01_HomePage extends ActionClass {
 				if (map.getKey().equalsIgnoreCase("Password")) {
 					String value = map.getValue();
 					Enter_Text(Password_Text, "Enter EmailID", value);
-
 				}
 				j++;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -11,6 +11,11 @@ public class test {
 	
 	
 	@Test
+	public void name() {
+		
+	}
+	
+	@Test
 	public void callMapdata() throws FileNotFoundException 
 	{
 		try {

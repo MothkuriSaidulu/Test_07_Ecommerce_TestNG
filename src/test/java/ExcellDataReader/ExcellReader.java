@@ -15,10 +15,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.NumberToTextConverter;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.WebDriver;
 
-import Utilities.BaseClass;
-
-public class ExcellReader extends BaseClass {
+public class ExcellReader {
 	public static File filePath;
 	public static FileInputStream file;
 	public static Workbook workBook;
@@ -27,17 +26,21 @@ public class ExcellReader extends BaseClass {
 	public static Iterator<Cell> cellIterator;
 	public static Row row;
 	public static Cell cell;
-	public static String keyvalue;
-	public static String value;
+	public static String keyvalue, value, getPropertyValue;
 	public static Map<String, String> mapTestData;
+	public static Properties property;
+
+	public ExcellReader(WebDriver driver) {
+
+	}
 
 	public static Map<String, String> getExcelData() throws FileNotFoundException {
 
 		try {
 			mapTestData = new HashMap<String, String>();
 //			property = new Properties();
-			property = new Properties();
 			file = new FileInputStream("Config.properties");
+			property = new Properties();
 			property.load(file);
 			getPropertyValue = property.getProperty("SheetName");
 			System.out.println(getPropertyValue);
@@ -56,7 +59,7 @@ public class ExcellReader extends BaseClass {
 						row = rowIterator.next();
 						cell = row.getCell(0);
 						if (cell.getCellType() == CellType.STRING) {
-							keyvalue = cell.getStringCellValue().trim();
+							keyvalue = cell.getStringCellValue().toLowerCase().trim();
 							System.out.println(keyvalue);
 						} else {
 							keyvalue = NumberToTextConverter.toText(cell.getNumericCellValue());
@@ -65,7 +68,7 @@ public class ExcellReader extends BaseClass {
 						cell = row.getCell(1);
 
 						if (cell.getCellType() == CellType.STRING) {
-							value = cell.getStringCellValue().trim();
+							value = cell.getStringCellValue().toLowerCase().trim();
 							System.out.println(value);
 						} else {
 							value = NumberToTextConverter.toText(cell.getNumericCellValue());
@@ -80,6 +83,7 @@ public class ExcellReader extends BaseClass {
 				}
 				break;
 			}
+			file.close();
 
 		} catch (Exception e) {
 			// TODO: handle exception

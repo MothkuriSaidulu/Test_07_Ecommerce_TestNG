@@ -1,34 +1,32 @@
 package Utilities;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Date;
 import java.util.Properties;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.log4j.Logger;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.NoSuchFrameException;
-import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
 public class ActionClass extends BaseClass {
 
 	public static WebDriver driver;
-	public String randomString;
-
 	public static final Logger logger = Logger.getLogger(ActionClass.class.getName());
+	public static Properties property;
+	public static String getPropertyValue;
+	public static String rootPath = System.getProperty("user.dir");
 
 	@SuppressWarnings("static-access")
 	public ActionClass(WebDriver driver) {
@@ -39,7 +37,7 @@ public class ActionClass extends BaseClass {
 
 //  Explicit waits for web elements
 	public static WebDriverWait applyWebDriverWait() {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 		wait.ignoring(NoSuchElementException.class);
 		wait.ignoring(ElementNotInteractableException.class);
 		wait.ignoring(StaleElementReferenceException.class);
@@ -70,7 +68,7 @@ public class ActionClass extends BaseClass {
 
 		} catch (Exception e) {
 			logger.error("------- ERROR WHILE TRYING TO CLICK ON THE SPECIFIED WEB ELEMENT ------- :" + e.getMessage());
-			org.testng.Assert.fail(
+			Assert.fail(
 					"WebDriverException : WHILE TRYING TO WAIT FOR ELEMENT TO CLICKABLE ON THE SPECIFIED WEB ELEMENT"
 							+ "<b>" + elementDesc + "</b>" + " is not visible _due_to_the_Exception:- "
 							+ e.getMessage());
@@ -87,8 +85,8 @@ public class ActionClass extends BaseClass {
 
 		} catch (Exception e) {
 			logger.error("------- ERROR WHILE TRYING TO CLICK ON THE SPECIFIED WEB ELEMENT ------- :" + e.getMessage());
-			org.testng.Assert.fail("WebDriverException : WHILE TRYING TO CLICK ON THE SPECIFIED WEB ELEMENT" + "<b>"
-					+ elementDesc + "</b>" + " is not visible _due_to_the_Exception:- " + e.getMessage());
+			Assert.fail("WebDriverException : WHILE TRYING TO CLICK ON THE SPECIFIED WEB ELEMENT" + "<b>" + elementDesc
+					+ "</b>" + " is not visible _due_to_the_Exception:- " + e.getMessage());
 
 		}
 
@@ -104,8 +102,8 @@ public class ActionClass extends BaseClass {
 
 		} catch (Exception e) {
 			logger.error("------- ERROR WHILE TRYING TO Enter Text inside text box -------  " + e.getMessage());
-			org.testng.Assert.fail("WebDriverException : WHILE TRYING TO ENTER TEXT INSIDE THE SPECIFIED WEB ELEMENT"
-					+ "<b>" + elementDesc + "</b>" + " is not visible _due_to_the_Exception:- " + e.getMessage());
+			Assert.fail("WebDriverException : WHILE TRYING TO ENTER TEXT INSIDE THE SPECIFIED WEB ELEMENT" + "<b>"
+					+ elementDesc + "</b>" + " is not visible _due_to_the_Exception:- " + e.getMessage());
 		}
 	}
 
@@ -121,18 +119,21 @@ public class ActionClass extends BaseClass {
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error("------- ERROR WHILE TRYING TO  Verifying the Text ------- " + e.getMessage());
-			org.testng.Assert.fail("Exception : WHILE TRYING TO VERIFY THE TEXT INSIDE A WEB ELEMENT : "
+			Assert.fail("Exception : WHILE TRYING TO VERIFY THE TEXT INSIDE A WEB ELEMENT : "
 					+ "Actual and expected texts are not matching for: " + "<b>" + elementDesc + "</b>"
 					+ " due to the Exception: " + e.getMessage());
 
 		}
-
 	}
 
-	public String getProperty(String value) throws IOException {
+	public static String getProperty(String value) throws IOException {
 		property = new Properties();
-		property.load(file);
+//		filePath = new File(rootPath + "\\Config.properties");
 
+		filePath = new File("C:\\Users\\SAIDACHARY\\eclipse-workspace\\Test_07_Ecommerce_TestNG\\Config.properties");
+		System.out.println("Config file path " + filePath.getPath());
+		fileInputstream = new FileInputStream("filePath");
+		property.load(fileInputstream);
 		getPropertyValue = property.getProperty(value);
 		return getPropertyValue;
 	}
@@ -144,37 +145,34 @@ public class ActionClass extends BaseClass {
 
 	public String randomNumeric() {
 		randomString = RandomStringUtils.randomNumeric(10);
-
 		return randomString;
 	}
-/*
-	public void takeScreenshotOfEachPage() throws IOException {
-		File filePath;
-		String screenshotName = null;
-		try {
-			Date date = new Date();
-			String dateAndTime = date.toString();
-			System.out.println(dateAndTime); // Out put --> Sat Mar 30 11:54:52 IST 2024
+	
 
-			screenshotName = date.toString().replace(":", "_").replace(" ", "_") + ".png"; // Output -->//
-																							// Sat_Mar_30_11_54_52_IST_2024.png
-			System.out.println(screenshotName);
-			File scr = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-
-			// System.getProperty("user.dir") + "//Reports//screenshot.png
-
-			filePath = new File(System.getProperty("user.dir") + "\\Screenshots\\" + screenshotName);
-
-//			File filePath = new File("C:\\Users\\1003413\\eclipse-workspace\\Test_07_Ecommerce_TestNG\\Screenshots\\" + screenshotName);
-			FileUtils.copyFile(scr, filePath);
-		} catch (WebDriverException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-*/
+	
+	/*
+	 * public void takeScreenshotOfEachPage() throws IOException { File filePath;
+	 * String screenshotName = null; try { Date date = new Date(); String
+	 * dateAndTime = date.toString(); System.out.println(dateAndTime); // Out put
+	 * --> Sat Mar 30 11:54:52 IST 2024
+	 * 
+	 * screenshotName = date.toString().replace(":", "_").replace(" ", "_") +
+	 * ".png"; // Output -->// // Sat_Mar_30_11_54_52_IST_2024.png
+	 * System.out.println(screenshotName); File scr = ((TakesScreenshot)
+	 * driver).getScreenshotAs(OutputType.FILE);
+	 * 
+	 * // System.getProperty("user.dir") + "//Reports//screenshot.png
+	 * 
+	 * filePath = new File(System.getProperty("user.dir") + "\\Screenshots\\" +
+	 * screenshotName);
+	 * 
+	 * // File filePath = new File(
+	 * "C:\\Users\\1003413\\eclipse-workspace\\Test_07_Ecommerce_TestNG\\Screenshots\\"
+	 * + screenshotName); FileUtils.copyFile(scr, filePath); } catch
+	 * (WebDriverException e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); } catch (IOException e) { // TODO Auto-generated catch
+	 * block e.printStackTrace(); }
+	 * 
+	 * }
+	 */
 }
